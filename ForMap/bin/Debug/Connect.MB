@@ -1,0 +1,102 @@
+Declare Sub Main
+Sub Main
+
+Dim hdbc As Integer
+hdbc=Server_Connect("ODBC","DSN=ITGSQLTest;UID=konda;DATABASE=КлимРиски_18-12-13;Trusted_Connection=Yes")
+
+
+Server hdbc Link Table 
+"Select * From CHEB_PK"
+   Into "ChebPK" Autokey ON 
+   File ".\ChebPK"
+
+
+
+Open Table ".\RUS_OBL.TAB"
+Open Table ".\ChebPK.TAB"
+
+
+Add Column "RUS_OBL" (Color_Namber) 
+From ChebPK
+Set To Gr
+Where Name_r = Sub
+
+Map From RUS_OBL
+
+
+Create Redistricter RUS_OBL By Color_Namber
+With
+Count, Brush
+Order "Alpha"
+
+OnError Goto asd
+
+Set Redistricter Районы
+Change "1" Brush (2,16711680)
+Set Redistricter Районы
+Change "2" Brush (2,16737894)
+Set Redistricter Районы
+Change "3" Brush (2,16751001)
+Set Redistricter Районы
+Change "4" Brush (2,16777113)
+Set Redistricter Районы
+Change "5" Brush (2,16776960)
+Set Redistricter Районы
+Change "6" Brush (2,10145074)
+Set Redistricter Районы
+Change "7" Brush (2,8190976)
+Set Redistricter Районы
+Change "8" Brush (2,32768)
+Set Redistricter Районы
+Change "9" Brush (2,64154)
+Set Redistricter Районы
+Change "10" Brush (2,2142790)
+Set Redistricter Районы
+Change "11" Brush (2,35723)
+Set Redistricter Районы
+Change "12" Brush (2,65535)
+Set Redistricter Районы
+Change "13" Brush (2,2003199)
+Set Redistricter Районы
+Change "14" Brush (2,4286945)
+Set Redistricter Районы
+Change "15" Brush (2,128)
+Set Redistricter Районы
+Change "16" Brush (2,255)
+Change "17" Brush (2,9055202)
+Change "18" Brush (2,8388736)
+Change "19" Brush (2,16711935)
+Change "20" Brush (2,16738640)
+Change "21" Brush (2,13458524)
+Change "22" Brush (2,12357519)
+Change "23" Brush (2,16770273)
+Change "24" Brush (2,12433259)
+Change "25" Brush (2,15787660)
+Change "26" Brush (2,6710886)
+Change "27" Brush (2,13421772)
+Change "28" Brush (2,16777215)
+Change "29" Brush (2,16777214)
+Change "30" Brush (2,16777213)
+Change "31" Brush (2,16777212)
+Change "32" Brush (2,16777211)
+Change "asd" Brush (2,16777211)
+
+asd:
+Resume after
+
+after:
+
+Dim graph_id As Integer
+graph_id = WindowId(1)
+
+Create Cartographic Legend
+ From Window graph_id
+  Position (30,30)
+  Width 45 Height 80
+  Portrait
+  Style Size Large
+  Frame From Layer 1
+  Border Pen (0, 1, 0)
+
+Open Window graph_id
+End Sub

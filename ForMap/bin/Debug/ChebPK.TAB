@@ -1,0 +1,17 @@
+!table
+!version 400
+!charset WindowsCyrillic
+
+Definition Table
+  Type LINKED Charset "WindowsCyrillic"
+  Fields 2
+    Sub Char (254) Index 1 ReadOnly ;
+    Gr Char (20) ;
+begin_metadata
+"\IsReadOnly" = "FALSE"
+"\MapInfo" = ""
+"\MapInfo\TableID" = "2aa47fc4-6bf7-4c4b-b1ce-6fcfb303f76b"
+"\DATALINK" = ""
+"\DATALINK\ConnectionString" = "DSN=ITGSQLTest;UID=konda;Trusted_Connection=Yes;DATABASE= лим–иски_18-12-13"
+"\DATALINK\Query" = "select ""Sub"", ""Gr"" from CHEB_PK"
+end_metadata

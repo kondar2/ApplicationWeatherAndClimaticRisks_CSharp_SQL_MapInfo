@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="КлимРиски_18-12-13" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-PVRGJ52\SQLEXPRESS;Initial Catalog=КлимРиски_18-12-13;Integrated Security=True" SettingsObjectName="ForMap.Properties.Settings" SettingsPropertyName="КлимРиски_18_12_13ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Опасные_Явления" Member="Опасные_Явления">
+    <Type Name="Опасные_Явления">
+      <Column Name="Номер" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Дата_Начала" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Дата_Окончания" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="КоличествоОЯ" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Заблаговременность" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Номер_Явления" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Интенсивность_явления" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ИДСубъекта" Type="System.String" DbType="NChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="Дополнение" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="Список_Опасных_Явлений_Опасные_Явления" Member="Список_Опасных_Явлений" ThisKey="Номер_Явления" OtherKey="Номер_Явления" Type="Список_Опасных_Явлений" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ВРП" Member="ВРП">
+    <Type Name="ВРП">
+      <Column Name="ИДСубъекта" Type="System.String" DbType="NChar(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Версия" Type="System.Char" DbType="NChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Отрасль" Type="System.String" DbType="NChar(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Год" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ВРП" Member="ВРП1" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="Разделы_Экономики_ВРП" Member="Разделы_Экономики" ThisKey="Отрасль" OtherKey="Раздел" Type="Разделы_Экономики" IsForeignKey="true" />
+      <Association Name="Субъекты_РФ_ВРП" Member="Субъекты_РФ" ThisKey="ИДСубъекта,Версия" OtherKey="ИДСубъекта,Версия" Type="Субъекты_РФ" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Опасные_Явления_В_Отраслях" Member="Опасные_Явления_В_Отраслях">
+    <Type Name="Опасные_Явления_В_Отраслях">
+      <Column Name="Буква" Type="System.String" DbType="NChar(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="НомерЯвления" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Разделы_Экономики_Опасные_Явления_В_Отраслях" Member="Разделы_Экономики" ThisKey="Буква" OtherKey="Раздел" Type="Разделы_Экономики" IsForeignKey="true" />
+      <Association Name="Список_Опасных_Явлений_Опасные_Явления_В_Отраслях" Member="Список_Опасных_Явлений" ThisKey="НомерЯвления" OtherKey="Номер_Явления" Type="Список_Опасных_Явлений" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Разделы_Экономики" Member="Разделы_Экономики">
+    <Type Name="Разделы_Экономики">
+      <Column Name="Раздел" Type="System.String" DbType="NChar(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Название_Раздела" Type="System.String" DbType="NVarChar(75) NOT NULL" CanBeNull="false" />
+      <Association Name="Разделы_Экономики_ВРП" Member="ВРП" ThisKey="Раздел" OtherKey="Отрасль" Type="ВРП" />
+      <Association Name="Разделы_Экономики_Опасные_Явления_В_Отраслях" Member="Опасные_Явления_В_Отраслях" ThisKey="Раздел" OtherKey="Буква" Type="Опасные_Явления_В_Отраслях" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Список_Опасных_Явлений" Member="Список_Опасных_Явлений">
+    <Type Name="Список_Опасных_Явлений">
+      <Column Name="Номер_Явления" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Название_Опасного_Явления" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="ЕдиницаИзмерения" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Площадь" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="КоэффициентАгрессивности" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="Список_Опасных_Явлений_Опасные_Явления" Member="Опасные_Явления" ThisKey="Номер_Явления" OtherKey="Номер_Явления" Type="Опасные_Явления" />
+      <Association Name="Список_Опасных_Явлений_Опасные_Явления_В_Отраслях" Member="Опасные_Явления_В_Отраслях" ThisKey="Номер_Явления" OtherKey="НомерЯвления" Type="Опасные_Явления_В_Отраслях" />
+      <Association Name="Список_Опасных_Явлений_Опасные_Явления_test" Member="Опасные_Явления_test" ThisKey="Номер_Явления" OtherKey="Номер_Явления" Type="Опасные_Явления_test" />
+      <Association Name="Список_Опасных_Явлений_Опасные_Явления_test2" Member="Опасные_Явления_test2" ThisKey="Номер_Явления" OtherKey="Номер_Явления" Type="Опасные_Явления_test2" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Субъекты_РФ" Member="Субъекты_РФ">
+    <Type Name="Субъекты_РФ">
+      <Column Name="ИДСубъекта" Type="System.String" DbType="NChar(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Версия" Type="System.Char" DbType="NChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="НазСубъекта" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Дополнение" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="с" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="по" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Уровень" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Входит_в" Type="System.String" DbType="NChar(4)" CanBeNull="true" />
+      <Column Name="Входит_в_ур" Type="System.Char" DbType="NChar(1)" CanBeNull="true" />
+      <Column Name="Исключения" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+      <Association Name="Субъекты_РФ_ВРП" Member="ВРП" ThisKey="ИДСубъекта,Версия" OtherKey="ИДСубъекта,Версия" Type="ВРП" />
+      <Association Name="Субъекты_РФ_Субъекты_Сведения" Member="Субъекты_Сведения" ThisKey="ИДСубъекта,Версия" OtherKey="ИДСубъекта,Версия" Type="Субъекты_Сведения" />
+      <Association Name="Субъекты_РФ_Субъекты_соответствиеОЯ" Member="Субъекты_соответствиеОЯ" ThisKey="ИДСубъекта,Версия" OtherKey="ИДСубъекта1,ВерсияСубъекта1" Type="Субъекты_соответствиеОЯ" />
+      <Association Name="Субъекты_РФ_Субъекты_соответствиеОЯ1" Member="Субъекты_соответствиеОЯ1" ThisKey="ИДСубъекта,Версия" OtherKey="ИДСубъекта2,ВерсияСубъекта2" Type="Субъекты_соответствиеОЯ" />
+      <Association Name="Субъекты_РФ_ФакторыСоцРискаЗначения" Member="ФакторыСоцРискаЗначения" ThisKey="ИДСубъекта,Версия" OtherKey="ИДСубъекта,Версия" Type="ФакторыСоцРискаЗначения" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Субъекты_Сведения" Member="Субъекты_Сведения">
+    <Type Name="Субъекты_Сведения">
+      <Column Name="ИДСубъекта" Type="System.String" DbType="NChar(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Версия" Type="System.Char" DbType="NChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Год" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Площадь" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Население" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ВРП" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="Субъекты_РФ_Субъекты_Сведения" Member="Субъекты_РФ" ThisKey="ИДСубъекта,Версия" OtherKey="ИДСубъекта,Версия" Type="Субъекты_РФ" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Субъекты_соответствиеОЯ" Member="Субъекты_соответствиеОЯ">
+    <Type Name="Субъекты_соответствиеОЯ">
+      <Column Name="ИДСоотв" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ИДСубъекта1" Type="System.String" DbType="NChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="ВерсияСубъекта1" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="НазСубъекта1" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="НачалоНаблюдений" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ИДСубъекта2" Type="System.String" DbType="NChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="ВерсияСубъекта2" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="НазСубъекта2" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Дополнительно2" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Субъекты_РФ_Субъекты_соответствиеОЯ" Member="Субъекты_РФ" ThisKey="ИДСубъекта1,ВерсияСубъекта1" OtherKey="ИДСубъекта,Версия" Type="Субъекты_РФ" IsForeignKey="true" />
+      <Association Name="Субъекты_РФ_Субъекты_соответствиеОЯ1" Member="Субъекты_РФ1" ThisKey="ИДСубъекта2,ВерсияСубъекта2" OtherKey="ИДСубъекта,Версия" Type="Субъекты_РФ" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ФакторыСоцРиска" Member="ФакторыСоцРиска">
+    <Type Name="ФакторыСоцРиска">
+      <Column Name="КодФактора" Type="System.String" DbType="NChar(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="НазваниеФактора" Type="System.String" DbType="NVarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="ВесФактора" Type="System.Decimal" DbType="Decimal(6,2) NOT NULL" CanBeNull="false" />
+      <Column Name="ЕдИзмеренияФактора" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="СокрНазвФактора" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="БукваФактора" Type="System.Char" DbType="NChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="Применение" Type="System.String" DbType="NChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ТребуетсяНормирование" Type="System.String" DbType="NChar(3) NOT NULL" CanBeNull="false" />
+      <Association Name="ФакторыСоцРиска_ФакторыСоцРискаЗначения" Member="ФакторыСоцРискаЗначения" ThisKey="КодФактора" OtherKey="КодФактора" Type="ФакторыСоцРискаЗначения" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ФакторыСоцРискаЗначения" Member="ФакторыСоцРискаЗначения">
+    <Type Name="ФакторыСоцРискаЗначения">
+      <Column Name="ИДСубъекта" Type="System.String" DbType="NChar(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Версия" Type="System.Char" DbType="NChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="КодФактора" Type="System.String" DbType="NChar(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ЗначениеФактора" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Год" Type="System.Int16" DbType="SmallInt NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Субъекты_РФ_ФакторыСоцРискаЗначения" Member="Субъекты_РФ" ThisKey="ИДСубъекта,Версия" OtherKey="ИДСубъекта,Версия" Type="Субъекты_РФ" IsForeignKey="true" />
+      <Association Name="ФакторыСоцРиска_ФакторыСоцРискаЗначения" Member="ФакторыСоцРиска" ThisKey="КодФактора" OtherKey="КодФактора" Type="ФакторыСоцРиска" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Опасные_Явления_test" Member="Опасные_Явления_test">
+    <Type Name="Опасные_Явления_test">
+      <Column Name="Номер" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Дата_Начала" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Дата_Окончания" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="КоличествоОЯ" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Заблаговременность" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Номер_Явления" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Интенсивность_явления" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ИДСубъекта" Type="System.String" DbType="NChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="Дополнение" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="Список_Опасных_Явлений_Опасные_Явления_test" Member="Список_Опасных_Явлений" ThisKey="Номер_Явления" OtherKey="Номер_Явления" Type="Список_Опасных_Явлений" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Опасные_Явления_test2" Member="Опасные_Явления_test2">
+    <Type Name="Опасные_Явления_test2">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Номер" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Дата_Начала" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Дата_Окончания" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="КоличествоОЯ" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Заблаговременность" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Номер_Явления" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Интенсивность_явления" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ИДСубъекта" Type="System.String" DbType="NChar(4) NOT NULL" CanBeNull="false" />
+      <Column Name="Дополнение" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="Список_Опасных_Явлений_Опасные_Явления_test2" Member="Список_Опасных_Явлений" ThisKey="Номер_Явления" OtherKey="Номер_Явления" Type="Список_Опасных_Явлений" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
