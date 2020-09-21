@@ -1,9 +1,9 @@
-use [КлимРиски_18-12-13]
+use [РљР»РёРјР РёСЃРєРё_18-12-13]
 go
 
-SELECT [Индекс социального риска] as R_ec, НазСубъекта as Название_Субъекта
+SELECT [РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ СЂРёСЃРєР°] as R_ec, РќР°Р·РЎСѓР±СЉРµРєС‚Р° as РќР°Р·РІР°РЅРёРµ_РЎСѓР±СЉРµРєС‚Р°
 INTO Pemp
-FROM [3(4)_Индекс социального погодно-климатического риска]
+FROM [3(4)_РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ РїРѕРіРѕРґРЅРѕ-РєР»РёРјР°С‚РёС‡РµСЃРєРѕРіРѕ СЂРёСЃРєР°]
 ORDER BY R_ec DESC
 
 ALTER TABLE Pemp
@@ -16,11 +16,11 @@ WHERE R_ec IS NULL
 go
 
 
-SELECT * INTO Soc_table FROM [3(4)_Индекс социального погодно-климатического риска] 
+SELECT * INTO Soc_table FROM [3(4)_РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ РїРѕРіРѕРґРЅРѕ-РєР»РёРјР°С‚РёС‡РµСЃРєРѕРіРѕ СЂРёСЃРєР°] 
 
 UPDATE Soc_table
-SET [Индекс социального риска] = 0
-WHERE [Индекс социального риска] IS NULL
+SET [РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ СЂРёСЃРєР°] = 0
+WHERE [РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ СЂРёСЃРєР°] IS NULL
 go
 
 
@@ -34,18 +34,15 @@ DECLARE @dif float;
 DECLARE @dif1 float;
 
 
-/*Объявляем курсор*/ 
 DECLARE weather_curs SCROLL CURSOR 
-FOR SELECT R_ec, Название_Субъекта, Dif FROM Pemp ORDER BY R_ec DESC
+FOR SELECT R_ec, РќР°Р·РІР°РЅРёРµ_РЎСѓР±СЉРµРєС‚Р°, Dif FROM Pemp ORDER BY R_ec DESC
 FOR UPDATE OF Dif 
-/*Заполняем курсор*/ 
 
 
-/*Открываем курсор*/ 
 OPEN weather_curs
-/*Выбираем первую строку*/ 
+
 FETCH NEXT FROM weather_curs INTO @zna, @name, @dif
-/*Выполняем в цикле перебор строк*/ 
+
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
   
@@ -55,7 +52,7 @@ BEGIN
 
    UPDATE Pemp
    SET Dif = round(@zna - @zna1,5)
-   WHERE Название_Субъекта = @name1
+   WHERE РќР°Р·РІР°РЅРёРµ_РЎСѓР±СЉРµРєС‚Р° = @name1
 
    FETCH RELATIVE 0 FROM weather_curs
    INTO @zna, @name, @dif;
@@ -95,7 +92,7 @@ DECLARE @zna float;
 
 
 DECLARE weather_curs1 SCROLL CURSOR 
-FOR SELECT R_ec , Название_Субъекта, Dif FROM Pemp ORDER BY R_ec DESC
+FOR SELECT R_ec , РќР°Р·РІР°РЅРёРµ_РЎСѓР±СЉРµРєС‚Р°, Dif FROM Pemp ORDER BY R_ec DESC
 
 
 
@@ -108,14 +105,14 @@ FETCH NEXT FROM weather_curs1 INTO @zna, @name3, @dif3
 
    IF (@dif2 > @dif3)
 BEGIN
-   INSERT INTO Pemp1([vich_char],[vich_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[Индекс социального риска] FROM Soc_table AS j 
-	                                                                       WHERE j.НазСубъекта = @name2))
+   INSERT INTO Pemp1([vich_char],[vich_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ СЂРёСЃРєР°] FROM Soc_table AS j 
+	                                                                       WHERE j.РќР°Р·РЎСѓР±СЉРµРєС‚Р° = @name2))
 END
 ELSE
 BEGIN
    
-   INSERT INTO Pemp1([ost_char],[ost_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[Индекс социального риска] FROM Soc_table AS j 
-	                                                                       WHERE j.НазСубъекта = @name2))
+   INSERT INTO Pemp1([ost_char],[ost_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ СЂРёСЃРєР°] FROM Soc_table AS j 
+	                                                                       WHERE j.РќР°Р·РЎСѓР±СЉРµРєС‚Р° = @name2))
 END
 
 FETCH RELATIVE 0 FROM weather_curs1 INTO @zna, @name2, @dif2;
@@ -137,14 +134,14 @@ BEGIN
            
 	    IF (@dif2 > @dif1)
           BEGIN
-             INSERT INTO Pemp1([vich_char],[vich_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[Индекс социального риска] FROM Soc_table AS j 
-	                                                                       WHERE j.НазСубъекта = @name2))
+             INSERT INTO Pemp1([vich_char],[vich_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ СЂРёСЃРєР°] FROM Soc_table AS j 
+	                                                                       WHERE j.РќР°Р·РЎСѓР±СЉРµРєС‚Р° = @name2))
    
           END
 		  ELSE
           BEGIN
-             INSERT INTO Pemp1([ost_char],[ost_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[Индекс социального риска] FROM Soc_table AS j 
-	                                                                       WHERE j.НазСубъекта = @name2))
+             INSERT INTO Pemp1([ost_char],[ost_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ СЂРёСЃРєР°] FROM Soc_table AS j 
+	                                                                       WHERE j.РќР°Р·РЎСѓР±СЉРµРєС‚Р° = @name2))
           END
 
     BREAK
@@ -154,8 +151,8 @@ BEGIN
    
    IF (@dif2 > @dif1) and (@dif2 > @dif3)
 BEGIN
-   INSERT INTO Pemp1([vich_char],[vich_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[Индекс социального риска] FROM Soc_table AS j 
-	                                                                       WHERE j.НазСубъекта = @name2))
+   INSERT INTO Pemp1([vich_char],[vich_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ СЂРёСЃРєР°] FROM Soc_table AS j 
+	                                                                       WHERE j.РќР°Р·РЎСѓР±СЉРµРєС‚Р° = @name2))
    
 
    
@@ -163,8 +160,8 @@ END
 ELSE
 BEGIN
    
-   INSERT INTO Pemp1([ost_char],[ost_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[Индекс социального риска] FROM Soc_table AS j 
-	                                                                       WHERE j.НазСубъекта = @name2))
+   INSERT INTO Pemp1([ost_char],[ost_float],R_sub) VALUES(@name2, @dif2,(SELECT j.[РРЅРґРµРєСЃ СЃРѕС†РёР°Р»СЊРЅРѕРіРѕ СЂРёСЃРєР°] FROM Soc_table AS j 
+	                                                                       WHERE j.РќР°Р·РЎСѓР±СЉРµРєС‚Р° = @name2))
 END
 
 
@@ -199,25 +196,25 @@ DECLARE @first_name nvarchar(255);
 DECLARE @Diff float;
 
 
-/*Объявляем курсор*/ 
+
 DECLARE cheb_pemp_curs CURSOR 
-FOR SELECT R_ec, Название_Субъекта, Dif FROM Pemp_main ORDER BY R_ec DESC
-/*Заполняем курсор*/ 
+FOR SELECT R_ec, РќР°Р·РІР°РЅРёРµ_РЎСѓР±СЉРµРєС‚Р°, Dif FROM Pemp_main ORDER BY R_ec DESC
 
 
-/*Открываем курсор*/ 
+
+
 OPEN cheb_pemp_curs
 
-/*Выбираем первую строку*/ 
+
 FETCH NEXT FROM cheb_pemp_curs INTO @first, @first_name, @Diff
 
 
-/*Выполняем в цикле перебор строк*/ 
+
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
    
-   IF @first_name NOT IN (SELECT Название_Субъекта FROM Pemp 
-                       RIGHT JOIN Pemp1 ON Название_Субъекта = vich_char
+   IF @first_name NOT IN (SELECT РќР°Р·РІР°РЅРёРµ_РЎСѓР±СЉРµРєС‚Р° FROM Pemp 
+                       RIGHT JOIN Pemp1 ON РќР°Р·РІР°РЅРёРµ_РЎСѓР±СЉРµРєС‚Р° = vich_char
 	                 WHERE vich_char IS NOT NULL)
    INSERT INTO Pemp33([ost_char],[ost_float],R_sub) VALUES(@first_name, @Diff, @first)
    ELSE
@@ -247,21 +244,21 @@ DECLARE @Gr2 nvarchar(20);
 
 
 
-/*Объявляем курсор*/ 
+
 DECLARE numb_curs SCROLL CURSOR 
 FOR SELECT vich_char, R_sub, Gr FROM Cheb1
 FOR UPDATE OF Gr 
-/*Заполняем курсор*/ 
 
 
-/*Открываем курсор*/ 
+
+
 OPEN numb_curs
 
-/*Выбираем первую строку*/ 
+
 FETCH NEXT FROM numb_curs INTO @vich_char1, @R_sub1, @Gr1
 SET @Gr2 = 1
 
-/*Выполняем в цикле перебор строк*/ 
+
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
    
@@ -309,26 +306,26 @@ DECLARE @last_el nvarchar(255);
 
 
 
-/*Объявляем курсор*/ 
+
 DECLARE cheb_curs SCROLL CURSOR 
 FOR SELECT vich_char, ost_char, R_sub, Gr FROM Cheb2
 FOR UPDATE OF Summ_razn_gr
-/*Заполняем курсор*/ 
 
 
-/*Открываем курсор*/ 
+
+
 OPEN cheb_curs
 
 FETCH LAST FROM cheb_curs INTO @vich_first_name, @ost_first_name, @first, @Gr1
 
 SET @last_el = @ost_first_name
 
-/*Выбираем первую строку*/ 
+
 FETCH FIRST FROM cheb_curs INTO @vich_first_name, @ost_first_name, @first, @Gr1
 SET @razn = 0
 SET @sum = 0
 
-/*Выполняем в цикле перебор строк*/ 
+
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
 
@@ -414,25 +411,25 @@ DECLARE @last_el nvarchar(255);
 
 
 
-/*Объявляем курсор*/ 
+/*РћР±СЉСЏРІР»СЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 DECLARE cheb_curs2 SCROLL CURSOR 
 FOR SELECT vich_char, ost_char, R_sub, Gr, Summ_razn_gr, Summa FROM Cheb2
 FOR UPDATE OF Summ_razn_gr
-/*Заполняем курсор*/ 
+/*Р—Р°РїРѕР»РЅСЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 
 
-/*Открываем курсор*/ 
+/*РћС‚РєСЂС‹РІР°РµРј РєСѓСЂСЃРѕСЂ*/ 
 OPEN cheb_curs2
 
 FETCH LAST FROM cheb_curs2 INTO @vich_first_name, @ost_first_name, @first, @Gr1, @Summ_razn1, @Summa
 SET @last_el = @ost_first_name
 
-/*Выбираем первую строку*/ 
+/*Р’С‹Р±РёСЂР°РµРј РїРµСЂРІСѓСЋ СЃС‚СЂРѕРєСѓ*/ 
 FETCH FIRST FROM cheb_curs2 INTO @vich_first_name, @ost_first_name, @first, @Gr1, @Summ_razn1, @Summa
 SET @razn = 0
 SET @sum = 0
 
-/*Выполняем в цикле перебор строк*/ 
+/*Р’С‹РїРѕР»РЅСЏРµРј РІ С†РёРєР»Рµ РїРµСЂРµР±РѕСЂ СЃС‚СЂРѕРє*/ 
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
    label: 
@@ -591,20 +588,20 @@ DECLARE @last_el nvarchar(255);
 
 
 
-/*Объявляем курсор*/ 
+/*РћР±СЉСЏРІР»СЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 DECLARE count_curs SCROLL CURSOR 
 FOR SELECT ost_char, R_sub, Gr, Summa FROM Cheb2
 FOR UPDATE OF Count_Num_razn
-/*Заполняем курсор*/ 
+/*Р—Р°РїРѕР»РЅСЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 
 
-/*Открываем курсор*/ 
+/*РћС‚РєСЂС‹РІР°РµРј РєСѓСЂСЃРѕСЂ*/ 
 OPEN count_curs
 
 FETCH LAST FROM count_curs INTO @first_name, @first, @Gr, @Summa
 SET @last_el = @first_name
 
-/*Выбираем первую строку*/ 
+/*Р’С‹Р±РёСЂР°РµРј РїРµСЂРІСѓСЋ СЃС‚СЂРѕРєСѓ*/ 
 FETCH FIRST FROM count_curs INTO @first_name, @first, @Gr, @Summa
 
 IF @Summa IS NOT NULL
@@ -617,7 +614,7 @@ BEGIN
 	   WHERE Gr = @Gr AND Summa IS NOT NULL
 END
 
-/*Выполняем в цикле перебор строк*/ 
+/*Р’С‹РїРѕР»РЅСЏРµРј РІ С†РёРєР»Рµ РїРµСЂРµР±РѕСЂ СЃС‚СЂРѕРє*/ 
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
   
@@ -667,14 +664,14 @@ DECLARE @last_el nvarchar(255);
 
 
 
-/*Объявляем курсор*/ 
+/*РћР±СЉСЏРІР»СЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 DECLARE delit_curs SCROLL CURSOR 
 FOR SELECT ost_char, R_sub, Gr, Summa, Count_Num_razn FROM Cheb2
 FOR UPDATE OF Delitel
-/*Заполняем курсор*/ 
+/*Р—Р°РїРѕР»РЅСЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 
 
-/*Открываем курсор*/ 
+/*РћС‚РєСЂС‹РІР°РµРј РєСѓСЂСЃРѕСЂ*/ 
 OPEN delit_curs
 
 FETCH LAST FROM delit_curs INTO @first_name, @first, @Gr, @Summa, @Count_Num_razn
@@ -682,7 +679,7 @@ SET @last_el = @first_name
 
 SET @Summa_Num_razn = 0
 
-/*Выбираем первую строку*/ 
+/*Р’С‹Р±РёСЂР°РµРј РїРµСЂРІСѓСЋ СЃС‚СЂРѕРєСѓ*/ 
 FETCH FIRST FROM delit_curs INTO @first_name, @first, @Gr, @Summa, @Count_Num_razn
 
 IF @Summa IS NOT NULL
@@ -692,7 +689,7 @@ SET Delitel = 0
 WHERE ost_char = @first_name
 END
 
-/*Выполняем в цикле перебор строк*/ 
+/*Р’С‹РїРѕР»РЅСЏРµРј РІ С†РёРєР»Рµ РїРµСЂРµР±РѕСЂ СЃС‚СЂРѕРє*/ 
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
   IF @Summa IS NOT NULL
@@ -746,14 +743,14 @@ DECLARE @last_el nvarchar(255);
 
 
 
-/*Объявляем курсор*/ 
+/*РћР±СЉСЏРІР»СЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 DECLARE Summ_gr_curs SCROLL CURSOR 
 FOR SELECT ost_char, R_sub, Gr, Summa FROM Cheb2
 FOR UPDATE OF Delitel
-/*Заполняем курсор*/ 
+/*Р—Р°РїРѕР»РЅСЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 
 
-/*Открываем курсор*/ 
+/*РћС‚РєСЂС‹РІР°РµРј РєСѓСЂСЃРѕСЂ*/ 
 OPEN Summ_gr_curs
 
 FETCH LAST FROM Summ_gr_curs INTO @first_name, @first, @Gr, @Summa
@@ -762,7 +759,7 @@ SET @last_el = @first_name
 SET @Summ_Group = 0
 
 FETCH FIRST FROM Summ_gr_curs INTO @first_name, @first, @Gr, @Summa
-/*Выбираем первую строку*/ 
+/*Р’С‹Р±РёСЂР°РµРј РїРµСЂРІСѓСЋ СЃС‚СЂРѕРєСѓ*/ 
 IF @Summa IS NOT NULL
 BEGIN
 UPDATE Cheb2
@@ -772,7 +769,7 @@ END
 
 
 
-/*Выполняем в цикле перебор строк*/ 
+/*Р’С‹РїРѕР»РЅСЏРµРј РІ С†РёРєР»Рµ РїРµСЂРµР±РѕСЂ СЃС‚СЂРѕРє*/ 
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
 
@@ -818,14 +815,14 @@ DECLARE @Result float;
 DECLARE @last_el nvarchar(255);
 
 
-/*Объявляем курсор*/ 
+/*РћР±СЉСЏРІР»СЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 DECLARE F1_curs SCROLL CURSOR 
 FOR SELECT ost_char, R_sub, Gr, Summa, Delitel FROM Cheb2
 FOR UPDATE OF F1
-/*Заполняем курсор*/ 
+/*Р—Р°РїРѕР»РЅСЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 
 
-/*Открываем курсор*/ 
+/*РћС‚РєСЂС‹РІР°РµРј РєСѓСЂСЃРѕСЂ*/ 
 OPEN F1_curs
 
 FETCH LAST FROM F1_curs INTO @first_name, @first, @Gr, @Summa, @Delitel
@@ -835,7 +832,7 @@ SET @Summa = 0
 SET @Delitel = 0
 SET @Result = 0
 
-/*Выбираем первую строку*/ 
+/*Р’С‹Р±РёСЂР°РµРј РїРµСЂРІСѓСЋ СЃС‚СЂРѕРєСѓ*/ 
 FETCH FIRST FROM F1_curs INTO @first_name, @first, @Gr, @Summa, @Delitel
 
   IF @Summa IS NOT NULL
@@ -853,7 +850,7 @@ FETCH FIRST FROM F1_curs INTO @first_name, @first, @Gr, @Summa, @Delitel
 
 
 
-/*Выполняем в цикле перебор строк*/ 
+/*Р’С‹РїРѕР»РЅСЏРµРј РІ С†РёРєР»Рµ РїРµСЂРµР±РѕСЂ СЃС‚СЂРѕРє*/ 
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
 
@@ -898,14 +895,14 @@ DECLARE @Pointer_S2 float;
 
 
 
-/*Объявляем курсор*/ 
+/*РћР±СЉСЏРІР»СЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 DECLARE F2_curs CURSOR 
 FOR SELECT Count_Num_razn, Summ_Group, F2 FROM Cheb2
 FOR UPDATE OF F2
-/*Заполняем курсор*/ 
+/*Р—Р°РїРѕР»РЅСЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 
 
-/*Открываем курсор*/ 
+/*РћС‚РєСЂС‹РІР°РµРј РєСѓСЂСЃРѕСЂ*/ 
 OPEN F2_curs
 
 SET @S1 = NULL
@@ -916,12 +913,12 @@ SET @Pointer_S1 = NULL
 SET @Pointer_S2 = NULL
 
 
-/*Выбираем первую строку*/ 
+/*Р’С‹Р±РёСЂР°РµРј РїРµСЂРІСѓСЋ СЃС‚СЂРѕРєСѓ*/ 
 FETCH NEXT FROM F2_curs INTO @num_el, @Summ_Group, @Result
 
 
 
-/*Выполняем в цикле перебор строк*/ 
+/*Р’С‹РїРѕР»РЅСЏРµРј РІ С†РёРєР»Рµ РїРµСЂРµР±РѕСЂ СЃС‚СЂРѕРє*/ 
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
   
@@ -983,23 +980,23 @@ DECLARE @Result float;
 
 
 
-/*Объявляем курсор*/ 
+/*РћР±СЉСЏРІР»СЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 DECLARE Result_curs CURSOR 
 FOR SELECT F1, F2 FROM Cheb2
 FOR UPDATE OF Result
-/*Заполняем курсор*/ 
+/*Р—Р°РїРѕР»РЅСЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 
 
-/*Открываем курсор*/ 
+/*РћС‚РєСЂС‹РІР°РµРј РєСѓСЂСЃРѕСЂ*/ 
 OPEN Result_curs
 
 
-/*Выбираем первую строку*/ 
+/*Р’С‹Р±РёСЂР°РµРј РїРµСЂРІСѓСЋ СЃС‚СЂРѕРєСѓ*/ 
 FETCH NEXT FROM Result_curs INTO @F1, @F2
 
 
 
-/*Выполняем в цикле перебор строк*/ 
+/*Р’С‹РїРѕР»РЅСЏРµРј РІ С†РёРєР»Рµ РїРµСЂРµР±РѕСЂ СЃС‚СЂРѕРє*/ 
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
   
@@ -1140,7 +1137,7 @@ DROP TABLE Pemp33;
 
 truncate table Pemp
 
-INSERT INTO Pemp(R_ec, Название_Субъекта, Dif)
+INSERT INTO Pemp(R_ec, РќР°Р·РІР°РЅРёРµ_РЎСѓР±СЉРµРєС‚Р°, Dif)
 SELECT R_sub, vich_char, vich_float
 FROM Pemp1
 WHERE vich_char IS NOT NULL
@@ -1185,22 +1182,22 @@ SET @max_Result = (SELECT MAX(Result) FROM Pemp_Result)
 SET @Tablename1 = (SELECT Pemp_namber FROM Pemp_Result WHERE Result = @max_Result)
 SET @Tablename = 'Pempm' + SUBSTRING(@Tablename1, 5, 10)
 
-/*Объявляем курсор*/ 
+/*РћР±СЉСЏРІР»СЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 --DECLARE For_map1 CURSOR 
 --FOR SELECT vich_char, ost_char, Gr FROM Pempm
 
-/*Заполняем курсор*/ 
+/*Р—Р°РїРѕР»РЅСЏРµРј РєСѓСЂСЃРѕСЂ*/ 
 exec TestProc2 @Tablename
 
-/*Открываем курсор*/ 
+/*РћС‚РєСЂС‹РІР°РµРј РєСѓСЂСЃРѕСЂ*/ 
 --OPEN For_map1
 
-/*Выбираем первую строку*/ 
+/*Р’С‹Р±РёСЂР°РµРј РїРµСЂРІСѓСЋ СЃС‚СЂРѕРєСѓ*/ 
 FETCH NEXT FROM For_map1 INTO @vich, @ost, @Gr
 
 
 
-/*Выполняем в цикле перебор строк*/ 
+/*Р’С‹РїРѕР»РЅСЏРµРј РІ С†РёРєР»Рµ РїРµСЂРµР±РѕСЂ СЃС‚СЂРѕРє*/ 
 WHILE @@FETCH_STATUS = 0 
 BEGIN 
 
